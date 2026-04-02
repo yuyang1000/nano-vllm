@@ -15,8 +15,11 @@ from nanovllm.engine.model_runner import ModelRunner
 class LLMEngine:
 
     def __init__(self, model, **kwargs):
+        # Config是一个@dataclass的类，通过fields方法来看下配置类里面有哪些属性
         config_fields = {field.name for field in fields(Config)}
+        # 入参有很多，但是支持的也仅仅是Config类里面的属性，这里是直接对dict做了过滤
         config_kwargs = {k: v for k, v in kwargs.items() if k in config_fields}
+        # model是个路径？
         config = Config(model, **config_kwargs)
         self.ps = []
         self.events = []
